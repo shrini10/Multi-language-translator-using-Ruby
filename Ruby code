@@ -1,0 +1,38 @@
+require 'google_translate_api'
+
+def translate_text(text, target_lang)
+  translator = GoogleTranslateApi::Client.new
+  translation = translator.translate(text, to: target_lang)
+  return translation
+end
+
+# Available language codes
+languages = {
+  "English" => "en",
+  "Hindi" => "hi",
+  "Spanish" => "es",
+  "French" => "fr",
+  "German" => "de",
+  "Chinese" => "zh",
+  "Japanese" => "ja",
+  "Russian" => "ru"
+}
+
+# Display available languages
+puts "Available languages for translation:"
+languages.each_with_index { |(name, code), index| puts "#{index + 1}. #{name} (#{code})" }
+
+# User input
+print "Enter text to translate: "
+text = gets.chomp
+
+print "Enter the language number you want to translate to: "
+choice = gets.chomp.to_i
+
+if choice.between?(1, languages.length)
+  target_lang = languages.values[choice - 1]
+  translated_text = translate_text(text, target_lang)
+  puts "Translated Text: #{translated_text}"
+else
+  puts "Invalid choice! Please select a valid language number."
+end
